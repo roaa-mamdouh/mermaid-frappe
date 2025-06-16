@@ -1,0 +1,75 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title or "Mermaid Diagram Editor" }}{% endblock %}
+
+{% block head_include %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/assets/mermaid/css/tailwind.css" rel="stylesheet">
+    <link href="/assets/mermaid/css/mermaid.css" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+<div id="mermaid-editor-app" class="h-screen">
+    <mermaid-editor 
+        :doc-name="diagramName"
+        :initial-content="initialContent" 
+        :initial-title="initialTitle">
+    </mermaid-editor>
+</div>
+
+<!-- Data preparation script -->
+<script type="application/json" id="diagram-data">
+{
+    "name": {{ diagram_data.name|default(null)|tojson }},
+    "content": {{ diagram_data.content|default("")|tojson }},
+    "title": {{ diagram_data.title|default("")|tojson }}
+}
+</script>
+
+<!-- Load vendor bundle first -->
+<script src="/assets/mermaid/js/vendor.bundle.js"></script>
+
+<!-- Vue application script -->
+<script>
+    // Load data from JSON script tag
+    const diagramData = JSON.parse(document.getElementById('diagram-data').textContent);
+    
+    // Import MermaidEditor component
+    import('/assets/mermaid/js/mermaid.bundle.js').then((module) => {
+        const { createApp } = Vue;
+        
+        createApp({
+            components: {
+                'mermaid-editor': module.default
+            },
+            data() {
+                return {
+                    diagramName: diagramData.name,
+                    initialContent: diagramData.content,
+                    initialTitle: diagramData.title
+                }
+            }
+        }).mount('#mermaid-editor-app');
+    }).catch((error) => {
+        console.error('Error loading Mermaid Editor:', error);
+        frappe.show_alert({
+            message: 'Error loading editor. Please refresh the page.',
+            indicator: 'red'
+        });
+    });
+</script>
+
+<style>
+    /* Override Frappe's default styles for full-height editor */
+    body[data-route="mermaid-editor"] .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    body[data-route="mermaid-editor"] .page-content {
+        height: 100vh !important;
+        padding: 0 !important;
+    }
+</style>
+{% endblock %}

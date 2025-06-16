@@ -1,0 +1,40 @@
+{% extends "templates/web.html" %}
+
+{% block head %}
+<!-- Monaco Editor CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
+<!-- Mermaid CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.css">
+{% endblock %}
+
+{% block page_content %}
+<div id="app"></div>
+{% endblock %}
+
+{% block script %}
+<!-- Load Monaco Editor -->
+<script>var require = { paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } };</script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.nls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.js"></script>
+
+<!-- Load Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<!-- Initialize Mermaid -->
+<script>
+window.mermaid.initialize({
+    startOnLoad: true,
+    theme: 'default',
+    securityLevel: 'loose',
+    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+});
+</script>
+
+<!-- Load app after dependencies -->
+<script type="module" src="/assets/mermaid/frontend/dist/assets/index-DM5g6C85.js"></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/assets/mermaid/frontend/dist/assets/index-Degvk0vN.css">
+{% endblock %}
