@@ -31,9 +31,11 @@
 </script>
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <!-- Load app after dependencies -->
-<script type="module" src="/assets/mermaid/frontend/dist/assets/index-CnysP75u.js"></script>
+<script type="module" src="{{ js_file }}"></script>
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="/assets/mermaid/frontend/dist/assets/index-Degvk0vN.css">
+{% if css_file %}
+<link rel="stylesheet" href="{{ css_file }}">
+{% endif %}
 {% endblock %}

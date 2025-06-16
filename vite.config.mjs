@@ -17,6 +17,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(process.cwd(), 'mermaid/public/frontend/dist'),
     emptyOutDir: true,
+    manifest: true,
     rollupOptions: {
       external: ['mermaid', 'monaco-editor', 'vs/editor/editor.main'],
       output: {
@@ -31,4 +32,4 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['monaco-editor']
   }
-}); 
+});

@@ -11,7 +11,7 @@ app_license = "mit"
 
 # Includes in <head>
 # Only include mermaid-init.js if needed
-app_include_css = []
+app_include_css = ["mermaid.bundle.css"]
 app_include_js = [
     "/assets/mermaid/js/mermaid-init.js"
 ]
