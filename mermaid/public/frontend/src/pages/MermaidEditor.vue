@@ -258,18 +258,29 @@ const jsPDF = ref(null)
 
 // Load dependencies on mount
 onMounted(async () => {
-  // Use globally loaded Monaco editor
-  monaco.value = window.monaco
-  
-  // Use globally loaded Mermaid
-  mermaid.value = window.mermaid
-  
-  // Load export utilities dynamically
-  html2canvas.value = (await import('html2canvas')).default
-  jsPDF.value = (await import('jspdf')).default
-  
-  // Initialize editor after dependencies are loaded
-  initializeEditor()
+  try {
+    // Wait for Monaco editor to be available
+    while (!window.monaco) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    monaco.value = window.monaco
+    
+    // Wait for Mermaid to be available
+    while (!window.mermaid) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    mermaid.value = window.mermaid
+    
+    // Load export utilities dynamically
+    html2canvas.value = (await import('html2canvas')).default
+    jsPDF.value = (await import('jspdf')).default
+    
+    
+    // Initialize editor after dependencies are loaded
+    initializeEditor()
+  } catch (error) {
+    console.error('Error initializing editor:', error)
+  }
 })
 
 // State
